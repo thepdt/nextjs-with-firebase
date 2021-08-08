@@ -1,0 +1,12 @@
+.blog {
+  &__image {
+    opacity: 1;
+    transition: all 0.5s;
+  }
+  &:hover & {
+    &__image {
+      transform: scale(1.2);
+      opacity: 0.8;
+    }
+  }
+}
