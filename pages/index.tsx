@@ -15,15 +15,6 @@ const Home = ({ user }) => {
     dynamicTextRef.current.changeValue(e.target.value);
   };
 
-  const handleSignOut = async () => {
-    await firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        window.location.href = "/sign-in";
-      });
-  };
-
   return (
     <Box className={styles.container}>
       <Head>
@@ -32,19 +23,8 @@ const Home = ({ user }) => {
       </Head>
 
       <main className={styles.main}>
-        <Flex pos="absolute" top="3" right="3" justify="center" alignItems="center">
-          <Heading as="h1" size="md">
-            Hello{" "}
-            <Text as="i" color="blue.300">
-              {user.email}
-            </Text>
-          </Heading>
-          <Button ml={6} color="gray.500" variant="outline" onClick={handleSignOut}>
-            Sign Out
-          </Button>
-        </Flex>
         <DynamicText ref={dynamicTextRef} />
-        <Input onChange={onChange} borderColor="black" />
+        <Input mt="4" onChange={onChange} borderColor="black" />
       </main>
     </Box>
   );
