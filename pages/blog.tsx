@@ -16,7 +16,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import BlogItem from "components/blog/BlogItem";
+import BlogCard from "components/blog/blog-card/BlogCard";
 import firebase from "firebase/app";
 import BlogClass, { BlogInterface } from "@/model/Blog";
 
@@ -26,8 +26,6 @@ const Blog = () => {
   const { isOpen: isOpenBlogDetail, onOpen: onOpenBlogDialog, onClose: onCloseBlogDetail } = useDisclosure();
 
   useEffect(() => {
-    console.log("get blog data");
-
     const database = firebase.database();
     const getBlogList = async () => {
       const blogListRef = database.ref("blog");
@@ -40,7 +38,6 @@ const Blog = () => {
   }, []);
 
   const showBlogDetail = (blog: BlogInterface) => {
-    console.log(blog);
     setSelectedBlog(blog);
     onOpenBlogDialog();
   };
@@ -58,7 +55,7 @@ const Blog = () => {
           </Heading>
           <SimpleGrid minChildWidth="200px" spacing="40px">
             {blogList && blogList.length
-              ? blogList.map((blog) => <BlogItem key={blog.id} blog={blog} showDetail={showBlogDetail} />)
+              ? blogList.map((blog) => <BlogCard key={blog.id} blog={blog} showDetail={showBlogDetail} />)
               : null}
           </SimpleGrid>
         </Container>

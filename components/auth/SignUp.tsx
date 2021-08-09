@@ -7,7 +7,7 @@ import "firebase/auth";
 const SignUp = () => {
   firebaseClient();
   const toast = useToast();
-  const initUserData = { email: null, password: null, confirmPassword: null };
+  const initUserData = { email: null, name: null, password: null, confirmPassword: null };
   const [userData, setUserData] = useState(initUserData);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,9 +17,7 @@ const SignUp = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("userData: ", userData);
-
-    const { email, password, confirmPassword } = userData;
+    const { email, name, password, confirmPassword } = userData;
     if (password !== confirmPassword) {
       toast({
         title: "An error occurred.",
@@ -33,7 +31,8 @@ const SignUp = () => {
     await firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(function (firebaseUser) {
+      .then(async (firebaseUser) => {
+        await firebaseUser.user.updateProfile({ displayName: name });
         window.location.href = "/";
       })
       .catch(function (error) {
@@ -56,6 +55,10 @@ const SignUp = () => {
         </Box>
         <Box my={4} textAlign="left">
           <form onSubmit={handleSubmit}>
+            <FormControl isRequired>
+              <FormLabel>Full name</FormLabel>
+              <Input placeholder="test@test.com" name="name" onChange={onChange} />
+            </FormControl>
             <FormControl isRequired>
               <FormLabel>Email</FormLabel>
               <Input type="email" placeholder="test@test.com" name="email" onChange={onChange} />

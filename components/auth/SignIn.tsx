@@ -17,7 +17,6 @@ const SignIn = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("userData: ", userData);
     const { email, password } = userData;
     await firebase
       .auth()

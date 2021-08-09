@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Text, Tooltip } from "@chakra-ui/react";
 import { BlogInterface } from "@/model/Blog";
-import classes from "./BlogItem.module.scss";
+import classes from "./BlogCard.module.scss";
 
-const BlogItem = ({ blog, showDetail }: { blog: BlogInterface; showDetail: (blog: BlogInterface) => void }) => {
+const BlogCard = ({ blog, showDetail }: { blog: BlogInterface; showDetail: (blog: BlogInterface) => void }) => {
   return (
     <Box
       borderRadius="lg"
@@ -32,4 +32,4 @@ const BlogItem = ({ blog, showDetail }: { blog: BlogInterface; showDetail: (blog
   );
 };
 
-export default BlogItem;
+export default BlogCard;
