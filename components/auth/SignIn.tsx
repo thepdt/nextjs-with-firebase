@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, useToast } from "@chakra-ui/react";
-import firebaseClient from "utils/firebaseClient";
-import firebase from "firebase/app";
-import "firebase/auth";
+import { useRouter } from "next/router";
+import { Box, Button, Flex, FormControl, FormLabel, Heading, Input } from "@chakra-ui/react";
 
-const SignIn = () => {
-  firebaseClient();
-  const toast = useToast();
+const SignIn = ({ handleSignIn }) => {
   const initUserData = { email: null, password: null };
   const [userData, setUserData] = useState(initUserData);
 
@@ -17,23 +13,7 @@ const SignIn = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const { email, password } = userData;
-    await firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(function (firebaseUser) {
-        window.location.href = "/";
-      })
-      .catch(function (error) {
-        const message = error.message;
-        toast({
-          title: "An error occurred.",
-          description: message,
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-      });
+    handleSignIn(userData);
   };
 
   return (

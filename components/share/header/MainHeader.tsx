@@ -5,7 +5,6 @@ import { Flex, Button, IconButton, Container, Box, Text } from "@chakra-ui/react
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useAuth } from "utils/auth";
 import firebase from "firebase/app";
-import path from "node:path";
 
 const MainHeader = () => {
   const router = useRouter();
@@ -95,7 +94,6 @@ const MainHeader = () => {
               </NextLink>
             </Flex>
           </Flex>
-
           {router.asPath !== "/sign-in" && (
             <Flex>
               {user ? (
