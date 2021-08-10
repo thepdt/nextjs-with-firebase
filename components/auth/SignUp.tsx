@@ -1,15 +1,9 @@
 import React, { useState } from "react";
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, useToast } from "@chakra-ui/react";
-import firebaseClient from "utils/firebaseClient";
-import firebase from "firebase/app";
-import "firebase/auth";
+import { Box, Button, Flex, FormControl, FormLabel, Heading, Input } from "@chakra-ui/react";
 
-const SignUp = () => {
-  firebaseClient();
-  const toast = useToast();
+const SignUp = ({ handleSignUp }) => {
   const initUserData = { email: null, name: null, password: null, confirmPassword: null };
   const [userData, setUserData] = useState(initUserData);
-
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
     setUserData({ ...userData, [name]: value });
@@ -17,34 +11,7 @@ const SignUp = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const { email, name, password, confirmPassword } = userData;
-    if (password !== confirmPassword) {
-      toast({
-        title: "An error occurred.",
-        description: "Passwords don't match",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-      return;
-    }
-    await firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(async (firebaseUser) => {
-        await firebaseUser.user.updateProfile({ displayName: name });
-        window.location.href = "/";
-      })
-      .catch(function (error) {
-        const message = error.message;
-        toast({
-          title: "An error occurred.",
-          description: message,
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-      });
+    handleSignUp(userData);
   };
 
   return (
@@ -57,11 +24,11 @@ const SignUp = () => {
           <form onSubmit={handleSubmit}>
             <FormControl isRequired>
               <FormLabel>Full name</FormLabel>
-              <Input placeholder="test@test.com" name="name" onChange={onChange} />
+              <Input placeholder="Your name" name="name" onChange={onChange} />
             </FormControl>
-            <FormControl isRequired>
+            <FormControl mt={6} isRequired>
               <FormLabel>Email</FormLabel>
-              <Input type="email" placeholder="test@test.com" name="email" onChange={onChange} />
+              <Input type="email" placeholder="example@gmail.com" name="email" onChange={onChange} />
             </FormControl>
             <FormControl mt={6} isRequired>
               <FormLabel>Password</FormLabel>

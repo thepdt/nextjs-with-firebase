@@ -34,9 +34,11 @@ export async function getServerSideProps(context) {
   try {
     const cookies = nookies.get(context);
     const token = await verifyIdToken(cookies.token);
-    return {
-      props: { user: token },
-    };
+    if (token.email_verified)
+      return {
+        props: { user: token },
+      };
+    throw "Email is not verified!";
   } catch (err) {
     context.res.writeHead(302, { Location: "/sign-in" });
     context.res.end();
