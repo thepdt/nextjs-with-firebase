@@ -1,21 +1,7 @@
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import {
-  Flex,
-  Button,
-  IconButton,
-  Container,
-  Box,
-  Text,
-  Menu,
-  MenuButton,
-  Avatar,
-  MenuList,
-  MenuItem,
-  MenuDivider,
-  Divider,
-} from "@chakra-ui/react";
+import { Flex, Button, IconButton, Container, Box, Text, Menu, MenuButton, Avatar, MenuList } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useAuth } from "utils/auth";
 import firebase from "firebase/app";
