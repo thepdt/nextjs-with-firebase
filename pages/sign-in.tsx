@@ -22,6 +22,7 @@ import firebaseClient from "utils/firebaseClient";
 import firebase from "firebase/app";
 import "firebase/auth";
 import { verifyIdToken } from "utils/firebaseAdmin";
+import NProgress from "nprogress";
 
 const Auth = () => {
   firebaseClient();
@@ -38,6 +39,7 @@ const Auth = () => {
     setSignInData(userData);
     const { email, password } = userData;
     try {
+      NProgress.start();
       const firebaseUser = await firebase.auth().signInWithEmailAndPassword(email, password);
       if (!firebaseUser.user.emailVerified) {
         setUserFirebase(firebaseUser);
@@ -55,6 +57,8 @@ const Auth = () => {
         duration: 9000,
         isClosable: true,
       });
+    } finally {
+      NProgress.done();
     }
   };
 
@@ -72,6 +76,7 @@ const Auth = () => {
       return;
     }
     try {
+      NProgress.start();
       const firebaseUser = await firebase.auth().createUserWithEmailAndPassword(email, password);
       await firebaseUser.user.updateProfile({ displayName: name });
       setUserFirebase(firebaseUser);
@@ -86,21 +91,32 @@ const Auth = () => {
         duration: 9000,
         isClosable: true,
       });
+    } finally {
+      NProgress.done();
     }
   };
 
   const handleCancelVerifiEmail = async () => {
-    if (!requestVerifyEmailFromSignIn) await userFirebase.user.delete();
-    setIsRequestVerifyEmail(false);
-    onCloseVerifyEmail();
+    try {
+      NProgress.start();
+      if (!requestVerifyEmailFromSignIn) await userFirebase.user.delete();
+    } catch (error) {
+    } finally {
+      setIsRequestVerifyEmail(false);
+      onCloseVerifyEmail();
+      NProgress.done();
+    }
   };
 
   const sendVerifyEmail = async () => {
     try {
+      NProgress.start();
       await userFirebase.user.sendEmailVerification();
       setIsRequestVerifyEmail(true);
     } catch (error) {
       if (error.code == "auth/too-many-requests") setIsRequestVerifyEmail(true);
+    } finally {
+      NProgress.done();
     }
   };
 

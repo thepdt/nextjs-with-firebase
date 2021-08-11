@@ -19,6 +19,7 @@ import {
 import BlogCard from "components/blog/blog-card/BlogCard";
 import firebase from "firebase/app";
 import BlogClass, { BlogInterface } from "@/model/Blog";
+import NProgress from "nprogress";
 
 const Blog = () => {
   const [blogList, setBlogList] = useState<BlogInterface[]>([]);
@@ -28,11 +29,17 @@ const Blog = () => {
   useEffect(() => {
     const database = firebase.database();
     const getBlogList = async () => {
-      const blogListRef = database.ref("blog");
-      await blogListRef.on("value", (snapshot) => {
-        const data: BlogInterface[] = snapshot.val();
-        setBlogList(data);
-      });
+      try {
+        NProgress.start();
+        const blogListRef = database.ref("blog");
+        await blogListRef.on("value", (snapshot) => {
+          const data: BlogInterface[] = snapshot.val();
+          setBlogList(data);
+        });
+      } catch (error) {
+      } finally {
+        NProgress.done();
+      }
     };
     getBlogList();
   }, []);

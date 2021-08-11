@@ -40,9 +40,12 @@ export async function getServerSideProps(context) {
       };
     throw "Email is not verified!";
   } catch (err) {
-    context.res.writeHead(302, { Location: "/sign-in" });
-    context.res.end();
-    return { props: {} };
+    return {
+      redirect: {
+        destination: "/sign-in",
+        permanent: false,
+      },
+    };
   }
 }
 
