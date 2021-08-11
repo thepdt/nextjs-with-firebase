@@ -1,7 +1,21 @@
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Flex, Button, IconButton, Container, Box, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  Button,
+  IconButton,
+  Container,
+  Box,
+  Text,
+  Menu,
+  MenuButton,
+  Avatar,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  Divider,
+} from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useAuth } from "utils/auth";
 import firebase from "firebase/app";
@@ -95,30 +109,53 @@ const MainHeader = () => {
             </Flex>
           </Flex>
           {router.asPath !== "/sign-in" && (
-            <Flex>
-              {user && user.emailVerified ? (
-                <Flex alignItems="center">
-                  <Text size="sm" mr="1">
-                    Welcome
-                  </Text>
-                  <Text color="blue.300" mr="3" fontWeight="bold">
-                    {user.displayName}
-                  </Text>
-                  <Button variant="solid" aria-label="Auth" my={5} w="100%" color="gray" onClick={handleSignOut}>
-                    Sign out
+            <Flex alignItems="center">
+              <Box>
+                {user && user.emailVerified ? (
+                  <Menu>
+                    <MenuButton as={Button} rounded={"full"} variant={"link"} cursor={"pointer"} minW={0}>
+                      <Avatar
+                        size={"sm"}
+                        src={
+                          "https://lh3.googleusercontent.com/proxy/lElB_pwFbA2xUdSqiDm6mGFjdhh914ZERuTI7sxNXwRgM2cqerkzNZG0ufPw3S90pu8aA5SMUO2i7Q4Ngdx_ty5ppcq_c0WuxCDp03rk"
+                        }
+                      />
+                    </MenuButton>
+                    <MenuList maxW="100px">
+                      <Box p="2.5" mb="5">
+                        <Text size="sm" mr="1">
+                          Welcome
+                          <Text
+                            as="span"
+                            color="blue.300"
+                            mr="3"
+                            ml="1"
+                            fontWeight="bold"
+                            minW="fit-content"
+                            wordBreak="break-all">
+                            {user.displayName}
+                          </Text>
+                        </Text>
+                      </Box>
+                      <Box borderTopColor="gray.100" borderTop="1px" px="2.5">
+                        <Button variant="solid" aria-label="Auth" mt={2} w="100%" color="gray" onClick={handleSignOut}>
+                          Sign out
+                        </Button>
+                      </Box>
+                    </MenuList>
+                  </Menu>
+                ) : (
+                  <Button
+                    variant="solid"
+                    aria-label="Auth"
+                    my={5}
+                    w="100%"
+                    color="gray"
+                    onClick={() => router.push("/sign-in")}>
+                    Sign in
                   </Button>
-                </Flex>
-              ) : (
-                <Button
-                  variant="solid"
-                  aria-label="Auth"
-                  my={5}
-                  w="100%"
-                  color="gray"
-                  onClick={() => router.push("/sign-in")}>
-                  Sign in
-                </Button>
-              )}
+                )}
+              </Box>
             </Flex>
           )}
         </Flex>
