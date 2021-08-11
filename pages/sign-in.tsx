@@ -22,6 +22,7 @@ import firebaseClient from "utils/firebaseClient";
 import firebase from "firebase/app";
 import "firebase/auth";
 import { verifyIdToken } from "utils/firebaseAdmin";
+import { UserSignInInterface, UserSignUpInterface } from "model/User";
 import NProgress from "nprogress";
 
 const Auth = () => {
@@ -31,11 +32,11 @@ const Auth = () => {
   const [userFirebase, setUserFirebase] = useState<firebase.auth.UserCredential>();
   const [isRequestVerifyEmail, setIsRequestVerifyEmail] = useState(false);
   const [requestVerifyEmailFromSignIn, setRequestVerifyEmailFromSignIn] = useState(false);
-  const [signUpData, setSignUpData] = useState();
-  const [signInData, setSignInData] = useState();
+  const [signInData, setSignInData] = useState<UserSignInInterface>();
+  const [signUpData, setSignUpData] = useState<UserSignUpInterface>();
   const { isOpen: isOpenVerifyEmail, onOpen: onOpenVerifyEmail, onClose: onCloseVerifyEmail } = useDisclosure();
 
-  const handleSignIn = async (userData) => {
+  const handleSignIn = async (userData: UserSignInInterface) => {
     setSignInData(userData);
     const { email, password } = userData;
     try {
@@ -62,7 +63,7 @@ const Auth = () => {
     }
   };
 
-  const handleSignUp = async (userData) => {
+  const handleSignUp = async (userData: UserSignUpInterface) => {
     setSignUpData(userData);
     const { email, name, password, confirmPassword } = userData;
     if (password !== confirmPassword) {

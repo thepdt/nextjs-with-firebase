@@ -1,8 +1,7 @@
 import Head from "next/head";
 import { useRef } from "react";
 import nookies from "nookies";
-import firebase from "firebase/app";
-import { Box, Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Input } from "@chakra-ui/react";
 import DynamicText from "components/DynamicText";
 import { DynamicTextRefInterface } from "@/model/Dynamic";
 import { verifyIdToken } from "utils/firebaseAdmin";

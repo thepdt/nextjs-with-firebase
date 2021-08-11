@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Input } from "@chakra-ui/react";
+import { UserSignUpInterface } from "model/User";
 
 const SignUp = ({ handleSignUp }) => {
   const initUserData = { email: null, name: null, password: null, confirmPassword: null };
-  const [userData, setUserData] = useState(initUserData);
+  const [userData, setUserData] = useState<UserSignUpInterface>(initUserData);
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target;
     setUserData({ ...userData, [name]: value });
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
     handleSignUp(userData);
   };
