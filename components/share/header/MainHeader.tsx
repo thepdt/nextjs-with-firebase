@@ -96,7 +96,7 @@ const MainHeader = () => {
           </Flex>
           {router.asPath !== "/sign-in" && (
             <Flex>
-              {user ? (
+              {user && user.emailVerified ? (
                 <Flex alignItems="center">
                   <Text size="sm" mr="1">
                     Welcome
